@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.ComponentModel;
 
 namespace GMAD.NET.Addon
 {
@@ -46,48 +47,92 @@ namespace GMAD.NET.Addon
         /// <summary>
         /// GMAD File header
         /// </summary>
-        public struct Header
+        public class Header
         {
             /// <summary>
             /// Ident in file, this will usually be "GMAD"
             /// </summary>
-            public string Ident;
+            [DisplayName("File Ident"), Description("Padding at begining of file, used to identify type."), Category("Version")]
+            public string Ident { get; set; }
 
             /// <summary>
             /// File format version
             /// </summary>
-            public ushort Version;
+            [DisplayName("Format Version"), Description("Version of the GMAD file format."), Category("Version")]
+            public ushort Version { get; set; }
+
+            /// <summary>
+            /// 64-bit Steam ID of the author
+            /// </summary>
+            [DisplayName("Steam ID"), Category("Author"), Description("64-bit Steam ID of the author.")]
+            public ulong SteamId { get; set; }
+
+            /// <summary>
+            /// Unix time stamp of when the file was created
+            /// </summary>
+            [Category("Version"), Description("Unix time stamp of when the file was created.")]
+            public ulong Timestamp { get; set; }
+
+            /// <summary>
+            /// Name of the addon
+            /// </summary>
+            [Category("Addon"), Description("Name of the addon")]
+            public string Name { get; set; }
+
+            /// <summary>
+            /// Description of the addon
+            /// </summary>
+            [Category("Addon"), Description("Description of the addon.")]
+            public string Description { get; set; }
+
+            /// <summary>
+            /// The name of the author
+            /// </summary>
+            [Category("Author"), Description("Name of the author.")]
+            public string Author { get; set; }
+
+            /// <summary>
+            /// The version of this addon
+            /// </summary>
+            [DisplayName("Addon Version"), Description("Iteration of this addon."), Category("Version")]
+            public int AddonVersion { get; set; }
+
+            /// <summary>
+            /// The offset at which the file block starts
+            /// </summary>
+            [Browsable(false)]
+            public long FileBlock { get; set; }
         }
 
         /// <summary>
         /// Represents a single file definition in a GMAD file
         /// </summary>
-        public struct FileEntry
+        public class FileEntry
         {
             /// <summary>
             /// Name of file
             /// </summary>
-            public string StrName;
+            public string StrName { get; set; }
 
             /// <summary>
             /// Number of bytes in file
             /// </summary>
-            public long Size;
+            public long Size { get; set; }
 
             /// <summary>
             /// CRC checksum of file
             /// </summary>
-            public ulong CRC;
+            public ulong CRC { get; set; }
 
             /// <summary>
             /// File number (starts at 1)
             /// </summary>
-            public uint FileNumber;
+            public uint FileNumber { get; set; }
 
             /// <summary>
             /// Offset in bytes of where the file begins in the file block
             /// </summary>
-            public long Offset;
+            public long Offset { get; set; }
         }
     }
 }

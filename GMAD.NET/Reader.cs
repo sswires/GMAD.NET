@@ -65,60 +65,12 @@ namespace GMAD.NET
     {
         #region PrivateMembers
         private string _filePath;
-        private ushort _formatVersion;
-        private ulong _steamId;
-        private ulong _timestamp;
-        private string _name;
-        private string _desc;
-        private string _author;
-        private int _addonVersion;
-        private long _fileBlock;
-
+        private FileFormat.Header _header = new FileFormat.Header();
         private List<FileFormat.FileEntry> _files = new List<FileFormat.FileEntry>();
         #endregion
 
         // Public properties that can only be read
-        /// <summary>
-        /// GMAD version
-        /// </summary>
-        [DisplayName("Format Version"), Description("Version of the GMAD file format."), Category("Version")]
-        public ushort FormatVersion { get { return _formatVersion; } }
-
-        /// <summary>
-        /// 64-bit Steam ID of the author
-        /// </summary>
-        [DisplayName("Steam ID"), Category("Author"), Description("64-bit Steam ID of the author.")]
-        public ulong SteamId { get { return _steamId; } }
-
-        /// <summary>
-        /// Unix time stamp of when the file was created
-        /// </summary>
-        [Category("Version"), Description("Unix time stamp of when the file was created.")]
-        public ulong Timestamp { get { return _timestamp; } }
-
-        /// <summary>
-        /// Name of the addon
-        /// </summary>
-        [Category("Addon"), Description("Name of the addon")]
-        public string Name { get { return _name; } }
-
-        /// <summary>
-        /// Description of the addon
-        /// </summary>
-        [Category("Addon"), Description("Description of the addon.")]
-        public string Description { get { return _desc; } }
-
-        /// <summary>
-        /// The name of the author
-        /// </summary>
-        [Category("Author"), Description("Name of the author.")]
-        public string Author { get { return _author; } }
-
-        /// <summary>
-        /// The version of this addon
-        /// </summary>
-        [DisplayName("Addon Version"), Description("Iteration of this addon."), Category("Version")]
-        public int AddonVersion { get { return _addonVersion; } }
+        public FileFormat.Header Header { get { return _header; } }
 
         /// <summary>
         /// A list of files found in the GMA file
@@ -142,13 +94,13 @@ namespace GMAD.NET
         public void Reset()
         {
             _filePath = String.Empty;
-            _formatVersion = 0;
-            _steamId = 0;
-            _timestamp = 0;
-            _name = String.Empty;
-            _desc = String.Empty;
-            _addonVersion = 0;
-            _fileBlock = 0;
+            _header.Version = 0;
+            _header.SteamId = 0;
+            _header.Timestamp = 0;
+            _header.Name = String.Empty;
+            _header.Description = String.Empty;
+            _header.AddonVersion = 0;
+            _header.FileBlock = 0;
 
             _files.Clear();
         }
@@ -166,21 +118,21 @@ namespace GMAD.NET
             using (var r = new BinaryReader(File.Open(path, FileMode.Open)))
             {
                 var length = r.BaseStream.Length;
-                var ident = Encoding.ASCII.GetString(r.ReadBytes(4));
+                _header.Ident = Encoding.ASCII.GetString(r.ReadBytes(4));
 
-                if (ident != "GMAD")
-                    throw new GmadReaderException("File is not a GMAD file. Got ident " + ident);
+                if (_header.Ident != "GMAD")
+                    throw new GmadReaderException("File is not a GMAD file. Got ident " + _header.Ident);
 
-                _formatVersion = r.ReadByte();
+                _header.Version = r.ReadByte();
 
-                if (_formatVersion > FileFormat.Version)
-                    throw new GmadReaderException("File is in a newer format than this version of GMAD.NET supports. Format version is " + _formatVersion);
+                if (_header.Version > FileFormat.Version)
+                    throw new GmadReaderException("File is in a newer format than this version of GMAD.NET supports. Format version is " + _header.Version);
 
-                _steamId = BitConverter.ToUInt64(r.ReadBytes(8), 0);
-                _timestamp = BitConverter.ToUInt64(r.ReadBytes(8), 0);
+                _header.SteamId = BitConverter.ToUInt64(r.ReadBytes(8), 0);
+                _header.Timestamp = BitConverter.ToUInt64(r.ReadBytes(8), 0);
 
                 // Not used
-                if (_formatVersion > 1)
+                if (_header.Version > 1)
                 {
                     var content = r.ReadNullTerminatedString();
 
@@ -190,11 +142,11 @@ namespace GMAD.NET
                     }
                 }
 
-                _name = r.ReadNullTerminatedString();
-                _desc = r.ReadNullTerminatedString();
-                _author = r.ReadNullTerminatedString();
+                _header.Name = r.ReadNullTerminatedString();
+                _header.Description = r.ReadNullTerminatedString();
+                _header.Author = r.ReadNullTerminatedString();
 
-                _addonVersion = r.ReadInt32();
+                _header.AddonVersion = r.ReadInt32();
 
                 long offset = 0;
                 uint fileno = 1;
@@ -202,7 +154,7 @@ namespace GMAD.NET
                 // Files block
                 while (r.ReadUInt32() != 0)
                 {
-                    FileFormat.FileEntry entry;
+                    var entry = new FileFormat.FileEntry();
 
                     entry.StrName = r.ReadNullTerminatedString();
                     entry.Size = r.ReadInt64();
@@ -219,7 +171,7 @@ namespace GMAD.NET
                 if(_files.Count < 1)
                     throw new GmadReaderException("Got no files from GMAD package.");
 
-                _fileBlock = r.BaseStream.Position;
+                _header.FileBlock = r.BaseStream.Position;
             }
         }
 
@@ -243,7 +195,7 @@ namespace GMAD.NET
 
             using (var fs = new FileStream(_filePath, FileMode.Open))
             {
-                fs.Position = _fileBlock + entry.Offset;
+                fs.Position = _header.FileBlock + entry.Offset;
                 fs.Read(buffer, 0, buffer.Length); // potential problem: what if a file is >2GB (likely?)
             }
 

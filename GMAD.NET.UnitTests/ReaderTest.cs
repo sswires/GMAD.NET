@@ -14,9 +14,9 @@ namespace GMAD.NET.UnitTests
         {
             var gmadReader = new Reader(@"E:\Program Files\steam\steamapps\sourcemods\garrysmod\addons\lua_rollercoasters_104508032.gma");
 
-            Debug.WriteLine("Title: " + gmadReader.Name);
-            Debug.WriteLine("Author: " + gmadReader.Author);
-            Debug.WriteLine(gmadReader.Description);
+            Debug.WriteLine("Title: " + gmadReader.Header.Name);
+            Debug.WriteLine("Author: " + gmadReader.Header.Author);
+            Debug.WriteLine(gmadReader.Header.Description);
             Debug.WriteLine("File count: " + gmadReader.Files.Count);
             Debug.WriteLine("");
 

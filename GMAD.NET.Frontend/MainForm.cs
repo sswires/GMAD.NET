@@ -28,7 +28,7 @@ namespace GMAD.NET.Frontend
             if (selected != DialogResult.Cancel)
             {
                 activeReader.Parse(dialog.FileName);
-                propertyGmad.SelectedObject = activeReader;
+                propertyGmad.SelectedObject = activeReader.Header;
 
                 menuFiles.Enabled = true;
 
