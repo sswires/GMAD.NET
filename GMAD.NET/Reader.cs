@@ -1,4 +1,20 @@
-﻿using System;
+﻿/*
+ *
+ * Copyright (C) 2013 Stephen Swires
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject
+ * to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ */
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -112,11 +128,30 @@ namespace GMAD.NET
         }
 
         /// <summary>
+        /// Reset all fields before parsing
+        /// </summary>
+        public void Reset()
+        {
+            _filePath = String.Empty;
+            _formatVersion = 0;
+            _steamId = 0;
+            _timestamp = 0;
+            _name = String.Empty;
+            _desc = String.Empty;
+            _addonVersion = 0;
+            _fileBlock = 0;
+
+            _files.Clear();
+        }
+
+        /// <summary>
         /// Loads a GMAD file with given path and extracts properties and files list
         /// </summary>
         /// <param name="path">Path to .gmad file</param>
         public void Parse(string path)
         {
+            Reset();
+
             _filePath = path;
 
             using (var r = new BinaryReader(File.Open(path, FileMode.Open)))
