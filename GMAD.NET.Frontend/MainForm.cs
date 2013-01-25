@@ -16,6 +16,8 @@ namespace GMAD.NET.Frontend
         public MainForm()
         {
             InitializeComponent();
+
+            toolStripProgress.Visible = false;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -94,9 +96,14 @@ namespace GMAD.NET.Frontend
             var browser = new FolderBrowserDialog();
             var result = browser.ShowDialog();
 
+            toolStripProgress.Visible = true;
+
             if (result != DialogResult.Cancel)
             {
                 var folder = browser.SelectedPath;
+
+                toolStripProgress.ProgressBar.Maximum = files.Count();
+                toolStripProgress.ProgressBar.Value = 0;
 
                 foreach (var file in files)
                 {
@@ -110,9 +117,15 @@ namespace GMAD.NET.Frontend
                     {
                         var contents = activeReader.GetFile(file);
                         fs.Write(contents, 0, contents.Length);
+
+                        toolStripProgress.ProgressBar.Value++;
+                        toolStripStatusLabel.Text = "Writing file [" + file.StrName + "] " + toolStripProgress.ProgressBar.Value + " of " +
+                                                    toolStripProgress.ProgressBar.Maximum + ".";
                     }
                 }
-            }           
+            }
+
+            toolStripStatusLabel.Text = "Finished extracting package.";
         }
     }
 }
