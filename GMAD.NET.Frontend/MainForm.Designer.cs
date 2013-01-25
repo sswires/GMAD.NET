@@ -30,20 +30,20 @@
         {
             this.menuMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainContainer = new System.Windows.Forms.SplitContainer();
             this.propertyGmad = new System.Windows.Forms.PropertyGrid();
             this.listFiles = new System.Windows.Forms.ListView();
             this.menuFiles = new System.Windows.Forms.MenuStrip();
-            this.extractAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgress = new System.Windows.Forms.ToolStripProgressBar();
+            this.extractAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).BeginInit();
             this.mainContainer.Panel1.SuspendLayout();
@@ -74,36 +74,10 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // newToolStripMenuItem
-            // 
-            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
-            this.newToolStripMenuItem.Text = "New";
-            // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
-            this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(100, 6);
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // mainContainer
             // 
@@ -140,6 +114,7 @@
             this.listFiles.Size = new System.Drawing.Size(491, 496);
             this.listFiles.TabIndex = 0;
             this.listFiles.UseCompatibleStateImageBehavior = false;
+            this.listFiles.View = System.Windows.Forms.View.Tile;
             this.listFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listFiles_MouseDoubleClick);
             // 
             // menuFiles
@@ -155,17 +130,11 @@
             this.menuFiles.TabIndex = 1;
             this.menuFiles.Text = "menuStrip1";
             // 
-            // extractAllToolStripMenuItem
-            // 
-            this.extractAllToolStripMenuItem.Name = "extractAllToolStripMenuItem";
-            this.extractAllToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
-            this.extractAllToolStripMenuItem.Text = "Extract All";
-            this.extractAllToolStripMenuItem.Click += new System.EventHandler(this.extractAllToolStripMenuItem_Click);
-            // 
             // extractSelectedToolStripMenuItem
             // 
+            this.extractSelectedToolStripMenuItem.Image = global::GMAD.NET.Frontend.Properties.Resources.folder_blue;
             this.extractSelectedToolStripMenuItem.Name = "extractSelectedToolStripMenuItem";
-            this.extractSelectedToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
+            this.extractSelectedToolStripMenuItem.Size = new System.Drawing.Size(117, 20);
             this.extractSelectedToolStripMenuItem.Text = "Extract Selected";
             this.extractSelectedToolStripMenuItem.Click += new System.EventHandler(this.extractSelectedToolStripMenuItem_Click);
             // 
@@ -192,6 +161,48 @@
             // 
             this.toolStripProgress.Name = "toolStripProgress";
             this.toolStripProgress.Size = new System.Drawing.Size(100, 16);
+            // 
+            // extractAllToolStripMenuItem
+            // 
+            this.extractAllToolStripMenuItem.Image = global::GMAD.NET.Frontend.Properties.Resources.folder_green;
+            this.extractAllToolStripMenuItem.Name = "extractAllToolStripMenuItem";
+            this.extractAllToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
+            this.extractAllToolStripMenuItem.Text = "Extract All";
+            this.extractAllToolStripMenuItem.Click += new System.EventHandler(this.extractAllToolStripMenuItem_Click);
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Image = global::GMAD.NET.Frontend.Properties.Resources.document_green;
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Text = "New";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Image = global::GMAD.NET.Frontend.Properties.Resources.folder;
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Image = global::GMAD.NET.Frontend.Properties.Resources.disk;
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Image = global::GMAD.NET.Frontend.Properties.Resources.door_out;
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // MainForm
             // 
