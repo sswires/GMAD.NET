@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Text;
 using GMAD.NET.Addon;
@@ -58,7 +59,7 @@ namespace GMAD.NET
     }
 
     /// <summary>
-    /// Class used for reading GMA files.
+    /// Class used for reading GMAD package files.
     /// </summary>
     public class Reader
     {
@@ -80,41 +81,49 @@ namespace GMAD.NET
         /// <summary>
         /// GMAD version
         /// </summary>
+        [DisplayName("Format Version"), Description("Version of the GMAD file format."), Category("Version")]
         public ushort FormatVersion { get { return _formatVersion; } }
 
         /// <summary>
         /// 64-bit Steam ID of the author
         /// </summary>
+        [DisplayName("Steam ID"), Category("Author"), Description("64-bit Steam ID of the author.")]
         public ulong SteamId { get { return _steamId; } }
 
         /// <summary>
         /// Unix time stamp of when the file was created
         /// </summary>
+        [Category("Version"), Description("Unix time stamp of when the file was created.")]
         public ulong Timestamp { get { return _timestamp; } }
 
         /// <summary>
         /// Name of the addon
         /// </summary>
+        [Category("Addon"), Description("Name of the addon")]
         public string Name { get { return _name; } }
 
         /// <summary>
         /// Description of the addon
         /// </summary>
+        [Category("Addon"), Description("Description of the addon.")]
         public string Description { get { return _desc; } }
 
         /// <summary>
         /// The name of the author
         /// </summary>
+        [Category("Author"), Description("Name of the author.")]
         public string Author { get { return _author; } }
 
         /// <summary>
         /// The version of this addon
         /// </summary>
+        [DisplayName("Addon Version"), Description("Iteration of this addon."), Category("Version")]
         public int AddonVersion { get { return _addonVersion; } }
 
         /// <summary>
         /// A list of files found in the GMA file
         /// </summary>
+        [Browsable(false)]
         public List<FileFormat.FileEntry> Files { get { return _files; } } 
 
         /// <summary>
