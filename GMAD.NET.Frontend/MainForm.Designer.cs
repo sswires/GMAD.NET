@@ -39,11 +39,15 @@
             this.propertyGmad = new System.Windows.Forms.PropertyGrid();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.listFiles = new System.Windows.Forms.ListView();
+            this.menuFiles = new System.Windows.Forms.MenuStrip();
+            this.extractAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.extractSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).BeginInit();
             this.mainContainer.Panel1.SuspendLayout();
             this.mainContainer.Panel2.SuspendLayout();
             this.mainContainer.SuspendLayout();
+            this.menuFiles.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuMain
@@ -112,6 +116,7 @@
             // mainContainer.Panel2
             // 
             this.mainContainer.Panel2.Controls.Add(this.listFiles);
+            this.mainContainer.Panel2.Controls.Add(this.menuFiles);
             this.mainContainer.Size = new System.Drawing.Size(742, 520);
             this.mainContainer.SplitterDistance = 247;
             this.mainContainer.TabIndex = 1;
@@ -135,12 +140,39 @@
             // listFiles
             // 
             this.listFiles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listFiles.Location = new System.Drawing.Point(0, 0);
+            this.listFiles.Location = new System.Drawing.Point(0, 24);
             this.listFiles.Name = "listFiles";
-            this.listFiles.Size = new System.Drawing.Size(491, 520);
+            this.listFiles.Size = new System.Drawing.Size(491, 496);
             this.listFiles.TabIndex = 0;
             this.listFiles.UseCompatibleStateImageBehavior = false;
             this.listFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listFiles_MouseDoubleClick);
+            // 
+            // menuFiles
+            // 
+            this.menuFiles.Enabled = false;
+            this.menuFiles.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.extractAllToolStripMenuItem,
+            this.extractSelectedToolStripMenuItem});
+            this.menuFiles.Location = new System.Drawing.Point(0, 0);
+            this.menuFiles.Name = "menuFiles";
+            this.menuFiles.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.menuFiles.Size = new System.Drawing.Size(491, 24);
+            this.menuFiles.TabIndex = 1;
+            this.menuFiles.Text = "menuStrip1";
+            // 
+            // extractAllToolStripMenuItem
+            // 
+            this.extractAllToolStripMenuItem.Name = "extractAllToolStripMenuItem";
+            this.extractAllToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.extractAllToolStripMenuItem.Text = "Extract All";
+            this.extractAllToolStripMenuItem.Click += new System.EventHandler(this.extractAllToolStripMenuItem_Click);
+            // 
+            // extractSelectedToolStripMenuItem
+            // 
+            this.extractSelectedToolStripMenuItem.Name = "extractSelectedToolStripMenuItem";
+            this.extractSelectedToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
+            this.extractSelectedToolStripMenuItem.Text = "Extract Selected";
+            this.extractSelectedToolStripMenuItem.Click += new System.EventHandler(this.extractSelectedToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -157,8 +189,11 @@
             this.menuMain.PerformLayout();
             this.mainContainer.Panel1.ResumeLayout(false);
             this.mainContainer.Panel2.ResumeLayout(false);
+            this.mainContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).EndInit();
             this.mainContainer.ResumeLayout(false);
+            this.menuFiles.ResumeLayout(false);
+            this.menuFiles.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -177,6 +212,9 @@
         private System.Windows.Forms.PropertyGrid propertyGmad;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ListView listFiles;
+        private System.Windows.Forms.MenuStrip menuFiles;
+        private System.Windows.Forms.ToolStripMenuItem extractAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem extractSelectedToolStripMenuItem;
     }
 }
 

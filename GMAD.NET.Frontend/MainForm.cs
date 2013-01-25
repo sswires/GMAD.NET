@@ -28,6 +28,8 @@ namespace GMAD.NET.Frontend
                 activeReader.Parse(dialog.FileName);
                 propertyGmad.SelectedObject = activeReader;
 
+                menuFiles.Enabled = true;
+
                 foreach (var file in activeReader.Files)
                 {
                     var seperatorPos = file.StrName.LastIndexOf("/", System.StringComparison.Ordinal);
@@ -63,7 +65,7 @@ namespace GMAD.NET.Frontend
             {
                 var save = new SaveFileDialog {FileName = file.StrName.Substring(file.StrName.LastIndexOf("/", System.StringComparison.Ordinal) + 1)};
                 var selected = save.ShowDialog();
-
+                
                 if (selected != DialogResult.Cancel)
                 {
                     var path = save.FileName;
@@ -75,6 +77,42 @@ namespace GMAD.NET.Frontend
                     }
                 }
             }
+        }
+
+        private void extractAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExtractToFolder(activeReader.Files);
+        }
+
+        private void extractSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExtractToFolder(from ListViewItem item in listFiles.SelectedItems select (FileFormat.FileEntry)item.Tag);
+        }
+
+        private void ExtractToFolder(IEnumerable<FileFormat.FileEntry> files)
+        {
+            var browser = new FolderBrowserDialog();
+            var result = browser.ShowDialog();
+
+            if (result != DialogResult.Cancel)
+            {
+                var folder = browser.SelectedPath;
+
+                foreach (var file in files)
+                {
+                    var fileFolder = folder + "/" + file.StrName.Substring(0, file.StrName.LastIndexOf("/", System.StringComparison.Ordinal));
+                    var path = folder + "/" + file.StrName;
+
+                    if (!Directory.Exists(fileFolder))
+                        Directory.CreateDirectory(fileFolder + "/");
+
+                    using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write))
+                    {
+                        var contents = activeReader.GetFile(file);
+                        fs.Write(contents, 0, contents.Length);
+                    }
+                }
+            }           
         }
     }
 }
