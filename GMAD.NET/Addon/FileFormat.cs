@@ -53,6 +53,7 @@ namespace GMAD.NET.Addon
             {
                 Ident = FileFormat.Ident;
                 Version = FileFormat.Version;
+                Timestamp = DateTime.Now;
             }
 
             /// <summary>
@@ -76,8 +77,8 @@ namespace GMAD.NET.Addon
             /// <summary>
             /// Unix time stamp of when the file was created
             /// </summary>
-            [Category("Version"), Description("Unix time stamp of when the file was created.")]
-            public ulong Timestamp { get; set; }
+            [Category("Version"), Description("Timestamp of when the file was created.")]
+            public DateTime Timestamp { get; set; }
 
             /// <summary>
             /// Name of the addon

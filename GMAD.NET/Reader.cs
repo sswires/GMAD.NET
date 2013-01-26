@@ -96,7 +96,7 @@ namespace GMAD.NET
             _filePath = String.Empty;
             _header.Version = 0;
             _header.SteamId = 0;
-            _header.Timestamp = 0;
+            _header.Timestamp = DateTime.Now;
             _header.Name = String.Empty;
             _header.Description = String.Empty;
             _header.AddonVersion = 0;
@@ -129,7 +129,9 @@ namespace GMAD.NET
                     throw new GmadReaderException("File is in a newer format than this version of GMAD.NET supports. Format version is " + _header.Version);
 
                 _header.SteamId = BitConverter.ToUInt64(r.ReadBytes(8), 0);
-                _header.Timestamp = BitConverter.ToUInt64(r.ReadBytes(8), 0);
+
+                var timestamp = BitConverter.ToUInt64(r.ReadBytes(8), 0);
+                _header.Timestamp = (new DateTime(1970, 1, 1, 0, 0, 0)).AddSeconds(Convert.ToDouble(timestamp));
 
                 // Not used
                 if (_header.Version > 1)

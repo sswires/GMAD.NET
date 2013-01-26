@@ -75,7 +75,7 @@ namespace GMAD.NET
 
                 bw.Write((byte)Header.Version);
                 bw.Write(Header.SteamId);
-                bw.Write(Header.Timestamp);
+                bw.Write(Convert.ToUInt64((Header.Timestamp - (new DateTime(1970, 1, 1, 0, 0, 0))).TotalSeconds));
                 
                 bw.Write((byte)0); // will be content block
 
