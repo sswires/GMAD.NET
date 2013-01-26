@@ -44,6 +44,7 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgress = new System.Windows.Forms.ToolStripProgressBar();
+            this.addDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).BeginInit();
             this.mainContainer.Panel1.SuspendLayout();
@@ -79,8 +80,9 @@
             this.newToolStripMenuItem.Image = global::GMAD.NET.Frontend.Properties.Resources.document_green;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -157,7 +159,8 @@
             this.menuFiles.Enabled = false;
             this.menuFiles.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.extractAllToolStripMenuItem,
-            this.extractSelectedToolStripMenuItem});
+            this.extractSelectedToolStripMenuItem,
+            this.addDirectoryToolStripMenuItem});
             this.menuFiles.Location = new System.Drawing.Point(0, 0);
             this.menuFiles.Name = "menuFiles";
             this.menuFiles.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -203,6 +206,14 @@
             // 
             this.toolStripProgress.Name = "toolStripProgress";
             this.toolStripProgress.Size = new System.Drawing.Size(100, 16);
+            // 
+            // addDirectoryToolStripMenuItem
+            // 
+            this.addDirectoryToolStripMenuItem.Image = global::GMAD.NET.Frontend.Properties.Resources.folder_add;
+            this.addDirectoryToolStripMenuItem.Name = "addDirectoryToolStripMenuItem";
+            this.addDirectoryToolStripMenuItem.Size = new System.Drawing.Size(108, 20);
+            this.addDirectoryToolStripMenuItem.Text = "Add Directory";
+            this.addDirectoryToolStripMenuItem.Click += new System.EventHandler(this.addDirectoryToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -250,6 +261,7 @@
         private System.Windows.Forms.ToolStripProgressBar toolStripProgress;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripMenuItem addDirectoryToolStripMenuItem;
     }
 }
 

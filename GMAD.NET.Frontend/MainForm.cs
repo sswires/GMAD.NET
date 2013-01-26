@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -32,7 +33,7 @@ namespace GMAD.NET.Frontend
         public MainForm()
         {
             InitializeComponent();
-
+            
             toolStripProgress.Visible = false;
         }
 
@@ -48,28 +49,35 @@ namespace GMAD.NET.Frontend
 
                 menuFiles.Enabled = true;
 
-                listFiles.Items.Clear();
-                listFiles.Groups.Clear();
-
-                foreach (var file in activeReader.Files)
-                {
-                    var seperatorPos = file.StrName.LastIndexOf("/", System.StringComparison.Ordinal);
-                    if (seperatorPos <= 0) continue;
-
-                    var vdir = file.StrName.Substring(0, seperatorPos);
-                    var group = listFiles.Groups[vdir];
-
-                    if(@group == null)
-                    {
-                        @group = new ListViewGroup(vdir, vdir);
-                        listFiles.Groups.Add(@group);
-                    }
-
-                    var item = new ListViewItem(file.StrName.Substring(seperatorPos + 1)) {Tag = file, Group = @group};
-                    @group.Items.Add(item);
-                    listFiles.Items.Add(item);
-                }
+                BindFiles();
             }
+        }
+
+        protected void BindFiles()
+        {
+            listFiles.Items.Clear();
+            listFiles.Groups.Clear();
+
+            foreach (var file in activeReader.Files)
+            {
+                var seperatorPos = file.StrName.LastIndexOf("/", System.StringComparison.Ordinal);
+                if (seperatorPos <= 0) continue;
+
+                var vdir = file.StrName.Substring(0, seperatorPos);
+                var group = listFiles.Groups[vdir];
+
+                if (@group == null)
+                {
+                    @group = new ListViewGroup(vdir, vdir);
+                    listFiles.Groups.Add(@group);
+                }
+
+                var item = new ListViewItem(file.StrName.Substring(seperatorPos + 1)) { Tag = file, Group = @group };
+                @group.Items.Add(item);
+                listFiles.Items.Add(item);
+            }          
+
+            listFiles.Sort();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -153,7 +161,7 @@ namespace GMAD.NET.Frontend
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var dialog = new SaveFileDialog();
+            var dialog = new SaveFileDialog() { DefaultExt = "*.gma", Filter = "Garry's Mod Packages (*.gma)|*.gma" };
             var selected = dialog.ShowDialog();
 
             if (selected != DialogResult.Cancel)
@@ -161,6 +169,53 @@ namespace GMAD.NET.Frontend
                 var writer = new Writer() { Reader = activeReader, Header = (FileFormat.Header)propertyGmad.SelectedObject, Files = (from ListViewItem item in listFiles.Items select (FileFormat.FileEntry)item.Tag).ToList() };
                 writer.Write(dialog.FileName);
             }
+        }
+
+        protected void AddDirectory(string basedir, string path)
+        {
+            foreach (var d in Directory.GetDirectories(path + "/"))
+            {
+                if(basedir != d)
+                    AddDirectory(basedir, d); // recursive directory search
+            }
+
+            foreach(var f in Directory.GetFiles(path))
+            {
+                if (Whitelist.Check(f))
+                {
+                    // do stuff with files
+                    var file = new FileFormat.FileEntry();
+                    file.LocalFile = true;
+                    file.PhysicalPath = f;
+                    file.StrName = file.PhysicalPath.Substring(basedir.Length + 1).Replace("\\", "/");
+                    file.Size = 0;
+
+                    activeReader.Files.Add(file);
+                }
+            }
+        }
+
+        private void addDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var browser = new FolderBrowserDialog();
+            var result = browser.ShowDialog();
+
+            if (result != DialogResult.Cancel)
+            {
+                AddDirectory(browser.SelectedPath, browser.SelectedPath);
+                BindFiles();
+            }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            propertyGmad.SelectedObject = new FileFormat.Header();
+            menuFiles.Enabled = true;
+
+            activeReader.Files.Clear();
+
+            listFiles.Items.Clear();
+            listFiles.Groups.Clear();
         }
     }
 }
