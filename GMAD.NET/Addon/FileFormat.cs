@@ -49,6 +49,12 @@ namespace GMAD.NET.Addon
         /// </summary>
         public class Header
         {
+            public Header()
+            {
+                Ident = FileFormat.Ident;
+                Version = FileFormat.Version;
+            }
+
             /// <summary>
             /// Ident in file, this will usually be "GMAD"
             /// </summary>
@@ -109,6 +115,12 @@ namespace GMAD.NET.Addon
         /// </summary>
         public class FileEntry
         {
+            public FileEntry()
+            {
+                LocalFile = false;
+                PhysicalPath = String.Empty;
+            }
+
             /// <summary>
             /// Name of file
             /// </summary>
@@ -122,7 +134,7 @@ namespace GMAD.NET.Addon
             /// <summary>
             /// CRC checksum of file
             /// </summary>
-            public ulong CRC { get; set; }
+            public uint CRC { get; set; }
 
             /// <summary>
             /// File number (starts at 1)
@@ -133,6 +145,16 @@ namespace GMAD.NET.Addon
             /// Offset in bytes of where the file begins in the file block
             /// </summary>
             public long Offset { get; set; }
+
+            /// <summary>
+            /// Is this a local file? (used for writer)
+            /// </summary>
+            public bool LocalFile { get; set; }
+
+            /// <summary>
+            /// Physical path to local file. (used for writer)
+            /// </summary>
+            public string PhysicalPath { get; set; }
         }
     }
 }

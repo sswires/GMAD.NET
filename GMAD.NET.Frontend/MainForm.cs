@@ -1,4 +1,20 @@
-﻿using System;
+﻿/*
+ *
+ * Copyright (C) 2013 Stephen Swires
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject
+ * to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ */
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,20 +48,25 @@ namespace GMAD.NET.Frontend
 
                 menuFiles.Enabled = true;
 
+                listFiles.Items.Clear();
+                listFiles.Groups.Clear();
+
                 foreach (var file in activeReader.Files)
                 {
                     var seperatorPos = file.StrName.LastIndexOf("/", System.StringComparison.Ordinal);
+                    if (seperatorPos <= 0) continue;
+
                     var vdir = file.StrName.Substring(0, seperatorPos);
                     var group = listFiles.Groups[vdir];
 
-                    if(group == null)
+                    if(@group == null)
                     {
-                        group = new ListViewGroup(vdir, vdir);
-                        listFiles.Groups.Add(group);
+                        @group = new ListViewGroup(vdir, vdir);
+                        listFiles.Groups.Add(@group);
                     }
 
-                    var item = new ListViewItem(file.StrName.Substring(seperatorPos + 1)) {Tag = file, Group = group, ToolTipText = file.StrName};
-                    group.Items.Add(item);
+                    var item = new ListViewItem(file.StrName.Substring(seperatorPos + 1)) {Tag = file, Group = @group};
+                    @group.Items.Add(item);
                     listFiles.Items.Add(item);
                 }
             }
@@ -58,6 +79,8 @@ namespace GMAD.NET.Frontend
 
         private void listFiles_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left) return;
+
             var list = sender as ListView;
             if (list == null) return;
 
@@ -126,6 +149,18 @@ namespace GMAD.NET.Frontend
             }
 
             toolStripStatusLabel.Text = "Finished extracting package.";
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dialog = new SaveFileDialog();
+            var selected = dialog.ShowDialog();
+
+            if (selected != DialogResult.Cancel)
+            {
+                var writer = new Writer() { Reader = activeReader, Header = (FileFormat.Header)propertyGmad.SelectedObject, Files = (from ListViewItem item in listFiles.Items select (FileFormat.FileEntry)item.Tag).ToList() };
+                writer.Write(dialog.FileName);
+            }
         }
     }
 }
